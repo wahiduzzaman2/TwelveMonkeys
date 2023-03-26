@@ -4,19 +4,6 @@ on: [push, pull_request]
 
 jobs:
 
-  flaky_run:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 8
-
-      - name: Run Test
-        run: mvn install -DskipTests -am -pl mageio/imageio-core
-
   run_test:
     runs-on: ubuntu-latest
 
