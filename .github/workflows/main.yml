@@ -2,9 +2,6 @@ name: java ci
 
 on: [push, pull_request]
 
-env:
-  GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
-
 jobs:
 
   run_test:
@@ -17,7 +14,7 @@ jobs:
           distribution: 'zulu'
           java-version: 8
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots package
+        run: mvn -B package --file pom.xml
 
       - name: Run Test
         run: mvn -pl imageio/imageio-core test -Dtest="com.twelvemonkeys.imageio.color.DiscreteAlphaIndexColorModelTest#testCreateCompatibleRaster"
