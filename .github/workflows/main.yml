@@ -1,0 +1,44 @@
+name: java ci
+
+on: [push, pull_request]
+
+jobs:
+
+  flaky_run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 8
+
+      - name: Run Test
+        run: mvn install -DskipTests -am -pl mageio/imageio-core
+
+  run_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 8
+
+      - name: Run Test
+        run: mvn -pl imageio/imageio-core test -Dtest="com.twelvemonkeys.imageio.color.DiscreteAlphaIndexColorModelTest#testCreateCompatibleRaster"
+                
+  run_test_with_nondex:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 8
+        
+      - name: Run Test w nondex
+        run: mvn -pl imageio/imageio-core edu.illinois:nondex-maven-plugin:1.1.2:nondex -Dtest="om.twelvemonkeys.imageio.color.DiscreteAlphaIndexColorModelTest#testCreateCompatibleRaster"
